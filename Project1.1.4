@@ -1,0 +1,48 @@
+
+1. Which product would create the highest expected value if featured in an ad campaign?
+
+Approach: Determine the expected value of an ad campaign for each product, where expected value is expected revenue less cost. 
+
+Expected revenue: (expected # ad clicks for product x) * (conversion rate for x) * (avg quantity sold of x) * (price x)
+
+Cost: (avg quantity sold) * (cost product x) + (# ad clicks) * (cost per click)
+
+Taking expected revenue less cost will provide an initial data point for the value to the company of an add campaign. 
+
+The analysis could then be further supported by looking at: How an ad for a particular product affects conversion rates for
+all products (not just the target); how likely a customer is to return after making a purchase of product x, y or z, etc.
+
+
+2. Why have signups to the company's website slowed? 
+
+Approach: First, understand where traffic has slowed over the past three years. Aggregate the total number of customers that signup, 
+conversion rate of signups to plan selection and conversion rate from plan selection to payments. Analyze over an annual, monthly and/or
+weekly basis.
+
+If # customers that signup has slowed, look at marketing spend to see whether it has coincided with falling marketing spend.
+
+If the conversion rate to plan selection has slowed, look at how long customers spend looking at each plan. 
+Need to also understand whether plan selection has changed at all over the past 3 years.
+
+If the conversion rate to the payment has slowed, look to see if payment options have changed or whether customers are spending too much
+time on the payment page (indication that payment process might be broken)
+
+3. Propose better hotel ranking system
+
+Approach: Develop ranking system that ranks options that customers are more likely to select highest - i.e., highest conversion rate.
+
+Run a regression on historical data to see how each factor is associated with higher conversion rates. 
+Dependent var = conversion rate
+Indep vars = price, availability, and 'session information' data (hotel site visits, length of stay)  
+
+4. Is current churn atypical?
+
+Approach: 
+Start by looking at absolute gross churn - total # users that dropped out in each of past 3 years. See if there
+is a particular period where churn spiked.
+
+Break out churn rate by new vs existing users (users active during first month of first year).
+
+For new users, calculate the share of new subscribers in a particular month dropped out over the next 1, 6, 12, etc months.
+
+For existing users, calculate a similar survival rate over the next 1, 6, 12, etc. months
