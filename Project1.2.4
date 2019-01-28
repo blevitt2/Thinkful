@@ -1,0 +1,52 @@
+#1.
+Answer: NOV 17, 2015, Max Temp: 134 F, Zip: 94063
+Code:
+
+SELECT
+	date,
+	maxtemperaturef,
+	zip	
+FROM
+	weather
+ORDER BY
+	maxtemperaturef DESC
+
+#2
+Answer: See code
+Code:
+SELECT
+	start_terminal,
+	COUNT(*) as numb_starts
+FROM
+	trips
+GROUP BY 
+	start_terminal
+ORDER BY
+	numb_starts DESC
+
+
+#3
+Answer: 22 trips at 60 seconds
+Code:
+SELECT
+	trip_id,
+	zip_code,
+	duration,
+	start_station
+FROM
+	trips
+ORDER BY
+	duration ASC
+
+#4
+Answer: see code
+Code:
+SELECT
+	end_station,
+	AVG(duration) as avg_duration
+FROM
+	trips
+GROUP BY
+	end_station
+ORDER BY
+	avg_duration DESC
