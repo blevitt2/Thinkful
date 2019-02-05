@@ -1,0 +1,108 @@
+#1. What are the three longest trips on rainy days?
+
+>>>>>>  Why does this generate duplicate trip ids?  <<<<<
+
+WITH rainday 
+AS(
+SELECT 
+	date(date), 
+	events
+FROM
+	weather
+WHERE
+	events = 'Rain'
+)
+
+SELECT
+	trips.trip_id,
+	trips.duration,
+	date(trips.start_date)
+FROM
+	trips
+JOIN
+	rainday
+ON
+	date(trips.start_date) = date(rainday.date)
+ORDER BY
+	duration DESC
+  
+
+#2. Which station is full most often?
+>>> Why does the order by function not work correctly here? <<<
+
+WITH empty_set
+AS (
+SELECT
+	station_id,
+	(CASE WHEN docks_available = 0 THEN 1 ELSE 0 END) empty_hrs
+FROM
+	status
+)
+
+SELECT 
+	station_id,
+	SUM(empty_hrs)
+FROM 
+	empty_set
+GROUP BY 1
+ORDER BY 1 DESC
+  
+
+#3.Return a list of stations with a count of number of trips starting at that 
+station but ordered by dock count.
+
+WITH tripcount_table 
+AS(
+SELECT
+	start_station,
+	COUNT(*) AS tripcount
+FROM trips
+GROUP BY 1
+)
+
+SELECT
+	t.start_station,
+	t.tripcount,
+	s.dockcount
+FROM
+	tripcount_table t
+JOIN
+	stations s
+ON
+	s.name = t.start_station
+ORDER BY 
+	dockcount DESC
+    
+#4. What's the length of the longest trip for each day it rains anywhere?
+
+>>>>>>  Why does this generate duplicates?  <<<<<
+
+WITH 
+rainday AS(
+SELECT 
+	date(date) AS rain_date, 
+	events
+FROM weather
+WHERE events = 'Rain'
+),
+
+longest_ride AS(
+SELECT 
+	date(start_date) ride_date,
+	MAX(duration) as long_ride 
+FROM trips
+GROUP BY ride_date
+)
+
+SELECT
+	rainday.rain_date,
+	longest_ride.long_ride
+FROM
+	rainday
+JOIN
+	longest_ride
+ON
+	rainday.rain_date = longest_ride.ride_date
+ORDER BY 
+	longest_ride.long_ride DESC
+
