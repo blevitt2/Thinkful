@@ -1,0 +1,74 @@
+What's the most expensive listing? What else can you tell me about the listing?
+
+Full House Victorian: 7500 sqft...
+In the Western Addition
+Price (looks like $/night) of $10,000
+
+###CODE###
+SELECT *	
+FROM sfo_listings
+ORDER BY price DESC
+
+
+What neighborhoods seem to be the most popular?
+The three most popular locations by # of listings: 
+Mission, Western Addition, and South of Market
+
+In the past year (2018), the most popular locations were 
+Mission, Western Addition and Castro/Upper Market
+
+In terms of # of reviews, Mission and Western are the top 2 but 
+Castro/Upper Market is #3. SoMa falls to #10.
+
+###CODE###
+WITH newtable AS(
+SELECT * 
+FROM sfo_listings
+WHERE last_review > '2017-12-31' 
+)
+
+SELECT
+	neighbourhood,
+	count(*) AS listcount
+FROM newtable
+GROUP BY neighbourhood
+ORDER BY listcount desc
+
+
+What time of year is the cheapest time to go to San Francisco? What about the busiest?
+
+Winter (Dec-Feb) is the cheapest time to fly to SF
+###CODE###
+WITH newtable 
+AS(
+SELECT 
+	calender_date,
+	to_char(calender_date, 'MM') AS month_date,
+	CAST(price AS MONEY)
+FROM sfo_calendar
+WHERE price IS NOT NULL 
+)
+SELECT
+	month_date,
+	AVG(price::numeric) as avgp
+FROM newtable
+GROUP BY month_date
+ORDER BY avgp DESC 
+
+The busiest is July and August
+###CODE###
+WITH newtable 
+AS(
+SELECT 
+	to_char(review_date, 'MM') AS month_date,
+	*
+FROM sfo_reviews
+)
+
+SELECT
+	month_date,
+	COUNT(*) AS reviewcount
+FROM newtable
+GROUP BY month_date
+ORDER BY reviewcount DESC
+
